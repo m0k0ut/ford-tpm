@@ -12,3 +12,7 @@ wheels/
 # Secrets
 .env
 .env.*
+
+# OS-specific files
+.DS_Store
+
