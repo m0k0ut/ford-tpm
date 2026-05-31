@@ -1,0 +1,176 @@
+/* ============================================================
+   FORD DESIGN SYSTEM — colors_and_type.css
+   Foundational tokens: color + type, base + semantic.
+   ------------------------------------------------------------
+   TYPEFACE NOTE: Ford.com's live web/marketing typeface (incl. the
+   Reimagine-era vehicle pages) is "Antenna" / "FordAntenna"
+   (Occupant Fonts / Font Bureau), in use since 2011. Ford's new
+   custom "Ford F-1" family (Typotheque, the first bespoke font in
+   Ford's history) is rolling into vehicle HMI + branding 2025–26.
+   Neither is publicly licensable, so this system substitutes
+   ARCHIVO (Omnibus-Type, Google Fonts) — a squared humanist
+   grotesque whose rhythm closely matches Antenna. (Work Sans is a
+   slightly warmer alternative.) Swap the --font-* vars to the real
+   licensed faces in production.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Archivo+Expanded:wght@600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root {
+  /* ---------- TYPE FAMILIES ---------- */
+  --font-display: "Archivo Expanded", "Archivo", "FordF1", "FordAntenna", "Antenna", system-ui, sans-serif;
+  --font-sans:    "Archivo", "FordF1", "FordAntenna", "Antenna", system-ui, -apple-system, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* ---------- BRAND COLOR — FORD BLUE ---------- */
+  --ford-blue:        #003478; /* Heritage Blue Oval — PMS 288C, primary brand */
+  --ford-blue-900:    #00142e; /* Deepest blue, near-black backgrounds */
+  --ford-blue-800:    #001a40;
+  --ford-blue-700:    #002257;
+  --ford-blue-600:    #003478; /* = --ford-blue */
+  --ford-blue-500:    #0b4ea2;
+  --ford-blue-400:    #2a6fd0;
+
+  /* Electric / EV-era accent (Mach-E, F-150 Lightning, CTAs, links) */
+  --ford-electric:    #066fef;
+  --ford-electric-600:#0a5ed1;
+  --ford-electric-300:#5fa3f7;
+  --ford-electric-100:#d6e7fd;
+
+  /* ---------- NEUTRALS (cool-tinted, like ford.com) ---------- */
+  --white:    #ffffff;
+  --gray-50:  #f4f6f9;
+  --gray-100: #e9edf2;
+  --gray-200: #d4dae2;
+  --gray-300: #b9c1cc;
+  --gray-400: #939dab;
+  --gray-500: #6b7480;
+  --gray-600: #4d555f;
+  --gray-700: #343a42;
+  --gray-800: #23272c;
+  --gray-900: #15181b;
+  --black:    #0b0c0e; /* dramatic vehicle-hero black */
+  --true-black:#000000;
+
+  /* ---------- SEMANTIC / STATUS ---------- */
+  --success: #1e8e3e;
+  --warning: #c77700;
+  --error:   #d62d2d;
+  --info:    #066fef;
+
+  /* ---------- SEMANTIC ROLES — LIGHT (default) ---------- */
+  --bg:           var(--white);
+  --bg-subtle:    var(--gray-50);
+  --bg-muted:     var(--gray-100);
+  --surface:      var(--white);
+  --fg:           var(--ford-blue-900);  /* primary text */
+  --fg-secondary: var(--gray-600);
+  --fg-muted:     var(--gray-500);
+  --fg-on-brand:  var(--white);
+  --link:         var(--ford-electric);
+  --border:       var(--gray-200);
+  --border-strong:var(--gray-300);
+  --focus-ring:   var(--ford-electric);
+
+  /* ---------- RADII ---------- */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+
+  /* ---------- SPACING (4px base) ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+  --space-11: 160px;
+  --space-12: 200px;
+
+  /* REIMAGINE section rhythm — generous negative space is the core
+     principle of the Reimagine redesign. Default vertical padding for
+     full-width story bands; let imagery + type breathe.
+     Mobile-first: scale down on small screens. */
+  --section-y: clamp(72px, 9vw, 128px);  /* top/bottom padding per band */
+  --section-y-lg: clamp(96px, 12vw, 176px); /* hero / feature emphasis */
+  --gutter: clamp(20px, 5vw, 48px);       /* container side padding */
+  --content-max: 1240px;                   /* readable max content width */
+  --measure: 56ch;                         /* max line length for body copy */
+
+  /* ---------- ELEVATION ---------- */
+  --shadow-sm: 0 1px 2px rgba(0, 20, 46, 0.08);
+  --shadow-md: 0 4px 14px rgba(0, 20, 46, 0.10);
+  --shadow-lg: 0 12px 32px rgba(0, 20, 46, 0.14);
+  --shadow-hero: 0 24px 60px rgba(0, 20, 46, 0.28);
+
+  /* ---------- MOTION ---------- */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized: cubic-bezier(0.3, 0, 0, 1);
+  --dur-fast: 140ms;
+  --dur-med: 240ms;
+  --dur-slow: 420ms;
+
+  /* ---------- TYPE SCALE (role tokens) ---------- */
+  --eyebrow-size: 13px;   --eyebrow-spacing: 0.14em; --eyebrow-weight: 700;
+  --display-xl: 76px;     --display-xl-lh: 1.0;   --display-xl-ls: -0.02em;
+  --display-l:  56px;     --display-l-lh: 1.04;   --display-l-ls: -0.02em;
+  --h1: 40px;             --h1-lh: 1.08;          --h1-ls: -0.015em;
+  --h2: 30px;             --h2-lh: 1.14;          --h2-ls: -0.01em;
+  --h3: 22px;             --h3-lh: 1.25;          --h3-ls: -0.005em;
+  --body-lg: 19px;        --body-lg-lh: 1.55;
+  --body: 16px;           --body-lh: 1.6;
+  --body-sm: 14px;        --body-sm-lh: 1.5;
+  --caption: 12px;        --caption-lh: 1.4;
+}
+
+/* ---------- DARK SURFACE (vehicle hero / EV pages) ---------- */
+.ford-dark, [data-theme="dark"] {
+  --bg:           var(--black);
+  --bg-subtle:    var(--gray-900);
+  --bg-muted:     var(--gray-800);
+  --surface:      var(--gray-900);
+  --fg:           var(--white);
+  --fg-secondary: var(--gray-300);
+  --fg-muted:     var(--gray-400);
+  --link:         var(--ford-electric-300);
+  --border:       rgba(255,255,255,0.16);
+  --border-strong:rgba(255,255,255,0.30);
+}
+
+/* ============================================================
+   ELEMENT DEFAULTS  (optional reset-ish base typography)
+   ============================================================ */
+.ford-type, .ford-root {
+  font-family: var(--font-sans);
+  color: var(--fg);
+  font-feature-settings: "kern" 1, "liga" 1;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--eyebrow-size);
+  letter-spacing: var(--eyebrow-spacing);
+  font-weight: var(--eyebrow-weight);
+  text-transform: uppercase;
+  color: var(--ford-electric);
+}
+
+.display-xl { font-family: var(--font-display); font-weight: 800; font-size: var(--display-xl); line-height: var(--display-xl-lh); letter-spacing: var(--display-xl-ls); }
+.display-l  { font-family: var(--font-display); font-weight: 800; font-size: var(--display-l);  line-height: var(--display-l-lh);  letter-spacing: var(--display-l-ls); }
+h1, .h1 { font-family: var(--font-sans); font-weight: 800; font-size: var(--h1); line-height: var(--h1-lh); letter-spacing: var(--h1-ls); }
+h2, .h2 { font-family: var(--font-sans); font-weight: 700; font-size: var(--h2); line-height: var(--h2-lh); letter-spacing: var(--h2-ls); }
+h3, .h3 { font-family: var(--font-sans); font-weight: 600; font-size: var(--h3); line-height: var(--h3-lh); letter-spacing: var(--h3-ls); }
+.body-lg { font-family: var(--font-sans); font-size: var(--body-lg); line-height: var(--body-lg-lh); }
+p, .body { font-family: var(--font-sans); font-size: var(--body); line-height: var(--body-lh); }
+.body-sm { font-family: var(--font-sans); font-size: var(--body-sm); line-height: var(--body-sm-lh); }
+.caption { font-family: var(--font-sans); font-size: var(--caption); line-height: var(--caption-lh); color: var(--fg-muted); }
+code, .mono { font-family: var(--font-mono); font-size: 0.92em; }

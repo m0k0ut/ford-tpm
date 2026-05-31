@@ -16,3 +16,7 @@ wheels/
 # OS-specific files
 .DS_Store
 
+# IDEs and editors
+.vscode/
+
+
