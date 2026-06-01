@@ -1,0 +1,1299 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SysML v2 for VESSE — Ford AI Ecosystem</title>
+
+  <!-- Design-system tokens (color + type). Import, don't re-declare. -->
+  <link rel="stylesheet" href="../design-system/colors_and_type.css" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      color: var(--fg);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      line-height: var(--body-lh);
+    }
+
+    a {
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* ---------- Layout ---------- */
+    .layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      align-self: start;
+      height: 100vh;
+      overflow: auto;
+      background: var(--bg-subtle);
+      border-right: 1px solid var(--border);
+      padding: var(--space-5) var(--space-5) var(--space-6);
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      padding-bottom: var(--space-5);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: var(--space-5);
+    }
+
+    .brand img {
+      width: 64px;
+      height: auto;
+    }
+
+    .brand .eyebrow {
+      margin: 0;
+    }
+
+    .brand p {
+      margin: 0;
+      font-size: var(--body-sm);
+      line-height: var(--body-sm-lh);
+      color: var(--fg-secondary);
+    }
+
+    .panel-label {
+      font-size: var(--caption);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--fg-muted);
+      margin: 0 0 var(--space-3);
+    }
+
+    /* TOC nav */
+    .nav {
+      display: grid;
+      gap: 2px;
+    }
+
+    .nav button {
+      text-align: left;
+      width: 100%;
+      padding: 9px 12px;
+      font-size: var(--body-sm);
+      font-family: var(--font-sans);
+      color: var(--fg-secondary);
+      background: transparent;
+      border: none;
+      border-left: 2px solid transparent;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: color var(--dur-fast) var(--ease-standard),
+        background var(--dur-fast) var(--ease-standard);
+    }
+
+    .nav button:hover {
+      color: var(--fg);
+      background: var(--bg-muted);
+    }
+
+    .nav button.active {
+      color: var(--ford-electric);
+      font-weight: 600;
+      border-left-color: var(--ford-electric);
+      background: var(--ford-electric-100);
+    }
+
+    /* ---------- Main ---------- */
+    .main {
+      padding: var(--space-6) var(--gutter) var(--space-9);
+      max-width: var(--content-max);
+    }
+
+    .top-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: var(--space-2);
+      margin-bottom: var(--space-5);
+      flex-wrap: wrap;
+    }
+
+    .btn-outline {
+      display: inline-block;
+      padding: 10px 18px;
+      border-radius: var(--radius-pill);
+      border: 1.5px solid var(--border-strong);
+      background: var(--surface);
+      color: var(--ford-blue-900);
+      font: 600 var(--body-sm)/1 var(--font-sans);
+      cursor: pointer;
+      transition: border-color var(--dur-fast) var(--ease-standard),
+        background var(--dur-fast) var(--ease-standard);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--ford-electric);
+      text-decoration: none;
+    }
+
+    .btn-outline:active {
+      transform: scale(0.98);
+    }
+
+    /* Hero */
+    .hero {
+      background:
+        radial-gradient(130% 120% at 85% -10%, #0f4a97 0%, rgba(15, 74, 151, 0) 60%),
+        linear-gradient(120deg, var(--ford-blue-900) 0%, var(--ford-blue-700) 55%, var(--ford-blue-500) 100%);
+      color: var(--white);
+      border-radius: var(--radius-lg);
+      padding: clamp(28px, 5vw, 56px);
+      box-shadow: var(--shadow-hero);
+      margin-bottom: var(--space-6);
+    }
+
+    .hero .eyebrow {
+      color: var(--ford-electric-300);
+      margin: 0 0 var(--space-3);
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(30px, 4.4vw, 52px);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin: 0 0 var(--space-4);
+      max-width: 20ch;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 70ch;
+      font-size: var(--body-lg);
+      line-height: var(--body-lg-lh);
+      color: #d9eaff;
+    }
+
+    .hero .codeline {
+      margin: var(--space-5) 0 0;
+      font-family: var(--font-mono);
+      font-size: var(--body-sm);
+      color: var(--ford-electric-300);
+      background: rgba(0, 0, 0, .28);
+      border: 1px solid rgba(255, 255, 255, .14);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      max-width: 70ch;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    /* Sections */
+    section {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      padding: clamp(20px, 3vw, 36px);
+      box-shadow: var(--shadow-sm);
+      margin: var(--space-5) 0;
+    }
+
+    section>.eyebrow {
+      margin: 0 0 var(--space-2);
+    }
+
+    section h2 {
+      margin: 0 0 var(--space-2);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: var(--h2);
+      line-height: var(--h2-lh);
+      letter-spacing: var(--h2-ls);
+      color: var(--ford-blue);
+    }
+
+    .subtle {
+      color: var(--fg-secondary);
+      font-size: var(--body-sm);
+      max-width: var(--measure);
+      margin: 0 0 var(--space-5);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow var(--dur-med) var(--ease-standard),
+        transform var(--dur-med) var(--ease-standard);
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .card h3 {
+      margin: 0 0 var(--space-2);
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: var(--h3);
+      line-height: var(--h3-lh);
+      letter-spacing: var(--h3-ls);
+      color: var(--ford-blue);
+    }
+
+    .card p {
+      margin: 0;
+      font-size: var(--body-sm);
+      line-height: 1.55;
+      color: var(--fg-secondary);
+    }
+
+    .card ul {
+      margin: var(--space-2) 0 0;
+      padding-left: 1.1em;
+    }
+
+    .card li {
+      font-size: var(--body-sm);
+      line-height: 1.55;
+      color: var(--fg-secondary);
+      margin-bottom: 4px;
+    }
+
+    .card li strong {
+      color: var(--fg);
+    }
+
+    .domain {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: var(--caption);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 5px 11px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--ford-electric-100);
+      background: var(--ford-electric-100);
+      color: var(--ford-electric-600);
+      margin-bottom: var(--space-3);
+    }
+
+    .domain i {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Shared "outcome" callout under cards / accordions */
+    .outcome {
+      font-size: var(--body-sm);
+      line-height: 1.55;
+      margin-top: var(--space-3);
+      border-top: 1px dashed var(--border-strong);
+      padding-top: var(--space-3);
+      color: var(--fg-secondary);
+    }
+
+    .outcome strong {
+      color: var(--fg);
+    }
+
+    /* ---------- v1 vs v2 comparison ---------- */
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+      margin-top: var(--space-2);
+    }
+
+    .compare .col {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      background: var(--bg-subtle);
+    }
+
+    .compare .col.v2 {
+      background: var(--ford-electric-100);
+      border-color: var(--ford-electric-300);
+    }
+
+    .compare .tag {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: var(--h3);
+      letter-spacing: -0.01em;
+      color: var(--fg-muted);
+      margin-bottom: var(--space-3);
+    }
+
+    .compare .col.v2 .tag {
+      color: var(--ford-electric-600);
+    }
+
+    .compare ul {
+      margin: 0;
+      padding-left: 1.1em;
+    }
+
+    .compare li {
+      font-size: var(--body-sm);
+      line-height: 1.55;
+      color: var(--fg-secondary);
+      margin-bottom: 7px;
+    }
+
+    .compare li strong {
+      color: var(--fg);
+    }
+
+    /* ---------- Matrix table ---------- */
+    .matrix {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--body-sm);
+      margin-top: var(--space-4);
+    }
+
+    .matrix th,
+    .matrix td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      vertical-align: top;
+      text-align: left;
+      line-height: 1.45;
+    }
+
+    .matrix th {
+      background: var(--bg-subtle);
+      color: var(--ford-blue);
+      font-weight: 700;
+      font-size: var(--caption);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .matrix td {
+      color: var(--fg-secondary);
+    }
+
+    .matrix td strong {
+      color: var(--fg);
+    }
+
+    /* ---------- Accordions ---------- */
+    details {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-3) var(--space-4);
+      margin: var(--space-3) 0;
+      background: var(--bg-subtle);
+    }
+
+    details[open] {
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 700;
+      font-size: var(--body);
+      color: var(--ford-blue);
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::before {
+      content: "";
+      width: 16px;
+      height: 16px;
+      flex: none;
+      background: var(--ford-electric);
+      mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>') center / contain no-repeat;
+      transition: transform var(--dur-fast) var(--ease-standard);
+    }
+
+    details[open] summary::before {
+      transform: rotate(90deg);
+    }
+
+    .uc-num {
+      font-family: var(--font-mono);
+      font-size: var(--caption);
+      font-weight: 700;
+      color: var(--ford-electric-600);
+      background: var(--ford-electric-100);
+      border-radius: var(--radius-sm);
+      padding: 2px 7px;
+      margin-left: auto;
+    }
+
+    details p {
+      font-size: var(--body-sm);
+      line-height: 1.6;
+      color: var(--fg-secondary);
+      margin: var(--space-3) 0 0;
+    }
+
+    details ul {
+      margin: var(--space-3) 0 0;
+      padding-left: 1.1em;
+    }
+
+    details li {
+      font-size: var(--body-sm);
+      line-height: 1.55;
+      color: var(--fg-secondary);
+      margin-bottom: 5px;
+    }
+
+    details li strong {
+      color: var(--fg);
+    }
+
+    /* ---------- Architecture diagram ---------- */
+    .arch {
+      margin-top: var(--space-2);
+      display: grid;
+      gap: var(--space-3);
+    }
+
+    .arch-layer {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4);
+      background: var(--bg-subtle);
+    }
+
+    .arch-layer .lyr-label {
+      font-size: var(--caption);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--fg-muted);
+      margin: 0 0 var(--space-3);
+    }
+
+    .node-row {
+      display: grid;
+      gap: var(--space-3);
+    }
+
+    .node-row.cols-1 {
+      grid-template-columns: 1fr;
+    }
+
+    .node-row.cols-4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .node {
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-md);
+      padding: var(--space-3) var(--space-4);
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .node .nh {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: var(--body-sm);
+      color: var(--ford-blue);
+    }
+
+    .node .nh i {
+      width: 16px;
+      height: 16px;
+      color: var(--ford-electric);
+    }
+
+    .node small {
+      display: block;
+      margin-top: 4px;
+      font-size: var(--caption);
+      line-height: 1.45;
+      color: var(--fg-secondary);
+    }
+
+    /* The hero "source of truth" node + the orchestration node */
+    .node.core {
+      background: var(--ford-blue-900);
+      border-color: var(--ford-blue-900);
+    }
+
+    .node.core .nh {
+      color: var(--white);
+    }
+
+    .node.core .nh i {
+      color: var(--ford-electric-300);
+    }
+
+    .node.core small {
+      color: #cfe0f6;
+    }
+
+    .node.engine {
+      background: var(--ford-electric-100);
+      border-color: var(--ford-electric-300);
+    }
+
+    .node.engine .nh {
+      color: var(--ford-electric-600);
+    }
+
+    .arch-flow {
+      text-align: center;
+      color: var(--ford-electric);
+      font-size: 18px;
+      line-height: 1;
+      padding: 2px 0;
+    }
+
+    .arch-note {
+      font-size: var(--caption);
+      color: var(--fg-muted);
+      margin-top: var(--space-3);
+    }
+
+    /* ---------- Stat strip ---------- */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+      margin-top: var(--space-2);
+    }
+
+    .stat .num {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(28px, 3.4vw, 40px);
+      letter-spacing: -0.03em;
+      color: var(--ford-electric);
+      line-height: 1;
+    }
+
+    .stat .lbl {
+      display: block;
+      margin-top: var(--space-2);
+      font-size: var(--body-sm);
+      line-height: 1.45;
+      color: var(--fg-secondary);
+    }
+
+    /* ---------- Roadmap timeline ---------- */
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+      margin-top: var(--space-4);
+    }
+
+    .t-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      background: var(--bg-subtle);
+      position: relative;
+    }
+
+    .t-item .month {
+      font-family: var(--font-display);
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: var(--ford-electric);
+      font-size: var(--h3);
+      margin-bottom: var(--space-1);
+    }
+
+    .t-item .phase {
+      display: block;
+      font-size: var(--caption);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--fg-muted);
+      margin-bottom: var(--space-3);
+    }
+
+    .t-item p {
+      margin: 0;
+      font-size: var(--body-sm);
+      line-height: 1.55;
+      color: var(--fg-secondary);
+    }
+
+    .footer-note {
+      color: var(--fg-muted);
+      font-size: var(--caption);
+      margin-top: var(--space-4);
+    }
+
+    /* System-as-Code highlight */
+    .sac {
+      color: var(--ford-electric);
+    }
+
+    .hero .sac {
+      color: var(--ford-electric-300);
+    }
+
+    /* ---------- Page footer ---------- */
+    .site-footer {
+      background: var(--ford-blue-900);
+      color: var(--gray-300);
+      border-radius: var(--radius-lg);
+      padding: clamp(24px, 4vw, 40px);
+      margin-top: var(--space-6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+    }
+
+    .site-footer img {
+      width: 56px;
+      height: auto;
+    }
+
+    .site-footer p {
+      margin: 0;
+      font-size: var(--caption);
+    }
+
+    /* ---------- Scroll reveal ---------- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity var(--dur-slow) var(--ease-emphasized), transform var(--dur-slow) var(--ease-emphasized);
+    }
+
+    .reveal.in {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+
+    @media (max-width: 1080px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .grid-2,
+      .grid-3,
+      .compare {
+        grid-template-columns: 1fr;
+      }
+
+      .node-row.cols-4 {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .timeline {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+
+      .node-row.cols-4,
+      .stats,
+      .timeline {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <img src="assets/ford-logo.png" alt="Ford" />
+        <p class="eyebrow">VESSE · MBSE</p>
+        <p>How System-as-Code turns the model into Ford's AI-native source of truth.</p>
+      </div>
+
+      <p class="panel-label">Contents</p>
+      <nav class="nav" id="toc"></nav>
+    </aside>
+
+    <main class="main" id="mainContent">
+      <div class="top-actions">
+        <a class="btn-outline" href="ford-ai-initiatives.html">‹ Back to AI Initiatives</a>
+        <a class="btn-outline" href="https://sensmetry.com/syside/" target="_blank" rel="noopener">View Syside Reference
+          ›</a>
+      </div>
+
+      <header class="hero reveal" id="thesis" data-nav="The Thesis">
+        <p class="eyebrow">SysML v2 · MBSE · VESSE</p>
+        <h1><span class="sac">System-as-Code.</span><br>AI can finally read your architecture.</h1>
+        <p>
+          SysML v2 didn't just modernize the model — it made it machine-readable. Textual notation,
+          a standard API, KerML semantics: your architecture is now something an agent can parse,
+          validate, and extend. In the AI age, that changes everything. <span class="sac">System-as-Code</span>
+          is the paradigm that makes VESSE workflows truly AI-native.
+        </p>
+        <div class="codeline">part def BrakeECU :> ElectronicControlUnit {
+          attribute asilLevel : SafetyLevel = ASIL_D;
+          port canBus : CANInterface;
+          } // one model a tool and an LLM can both read, diff, and generate</div>
+      </header>
+
+      <section id="the-shift" class="reveal" data-nav="The Shift: v1 → v2">
+        <p class="eyebrow">The v1 → v2 Inflection</p>
+        <h2>Diagrams can't talk to AI. Code can.</h2>
+        <p class="subtle">
+          SysML v1 described systems with diagrams locked inside proprietary tools. SysML v2 adds a
+          formal textual notation, a standard API, and the KerML metamodel — so models behave like
+          source code the rest of the toolchain can act on.
+        </p>
+        <div class="compare">
+          <div class="col v1">
+            <span class="tag">SysML v1</span>
+            <ul>
+              <li><strong>Diagram-first.</strong> Meaning lives in pictures drawn by hand.</li>
+              <li><strong>Proprietary lock-in.</strong> Models trapped in one vendor's file format.</li>
+              <li><strong>Hard to parse.</strong> Brittle XMI exchange; little machine semantics.</li>
+              <li><strong>Model–code drift.</strong> Engineers write, then re-write, in code.</li>
+              <li><strong>Boutique silos.</strong> Systems models disconnected from software.</li>
+            </ul>
+          </div>
+          <div class="col v2">
+            <span class="tag">SysML v2</span>
+            <ul>
+              <li><strong>Textual notation.</strong> Models are text — readable, reviewable, writable.</li>
+              <li><strong>Standard API.</strong> A REST/Platform API any tool or agent can call.</li>
+              <li><strong>Git-native.</strong> Diff, branch, and review models like a pull request.</li>
+              <li><strong>KerML metamodel.</strong> Precise semantics LLMs can reason over.</li>
+              <li><strong>One source of truth.</strong> Requirements, structure, behavior — unified.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="outcome">
+          <strong>Why it matters here:</strong> v1 made AI integration a research project. v2 makes it an
+          API call. Everything downstream in this pitch — agentic analysis, code generation, CI/CD —
+          only becomes practical once the model is code.
+        </div>
+      </section>
+
+      <section id="why-vesse" class="reveal" data-nav="Why It Matters for VESSE">
+        <p class="eyebrow">The AI Age Advantage</p>
+        <h2>In the AI age, your model must be code.</h2>
+        <p class="subtle">A code-friendly model directly attacks the pain points that slow electrical,
+          software, and systems engineering today.</p>
+        <div class="grid-3">
+          <article class="card">
+            <span class="domain"><i data-lucide="unlink"></i>De-silo</span>
+            <h3>Models meet software</h3>
+            <p>The textual model closes the historic gap between systems engineers who draw and software
+              engineers who code — both work against one artifact.</p>
+          </article>
+          <article class="card">
+            <span class="domain"><i data-lucide="bot"></i>AI-ready</span>
+            <h3>Legible to agents</h3>
+            <p>A formal, text-based metamodel is something an LLM can read, validate, and extend — turning
+              models into a substrate for Ford's AI tools, not a black box.</p>
+          </article>
+          <article class="card">
+            <span class="domain"><i data-lucide="git-branch"></i>Traceability</span>
+            <h3>ISO 26262 by construction</h3>
+            <p>API-addressable elements let bidirectional trace links to DOORS requirements and tests be
+              generated and verified — not hand-maintained.</p>
+          </article>
+          <article class="card">
+            <span class="domain"><i data-lucide="layers"></i>Scale</span>
+            <h3>One model, whole fleet</h3>
+            <p>FNV3.X standardizes architecture across the portfolio. A reusable, versioned model scales the
+              same way the platform does.</p>
+          </article>
+          <article class="card">
+            <span class="domain"><i data-lucide="cpu"></i>To the metal</span>
+            <h3>Feeds AUTOSAR</h3>
+            <p>Model intent flows into AUTOSAR Classic (C/ASIL-D) and Adaptive (C++) code paths through
+              generation templates — design and implementation stay in sync.</p>
+          </article>
+          <article class="card">
+            <span class="domain"><i data-lucide="shield-check"></i>Trust</span>
+            <h3>Augment, not replace</h3>
+            <p>AI drafts and checks; the engineer remains the final arbiter of safety. The model makes every
+              suggestion reviewable and reversible.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="toolchain" class="reveal" data-nav="The Toolchain">
+        <p class="eyebrow">The Platform</p>
+        <h2>Model as API. Code on demand.</h2>
+        <p class="subtle">
+          Syside (Sensmetry) is one of the most SysML v2-native tools available today. The
+          Modeler + Automator pattern it demonstrates applies to any SysML v2-conformant toolchain —
+          including Cameo and Rhapsody as they add v2 support.
+        </p>
+        <div class="grid-2">
+          <article class="card">
+            <span class="domain"><i data-lucide="pen-tool"></i>Authoring</span>
+            <h3>Modeler</h3>
+            <p>A fast, feature-rich SysML v2 environment for engineers.</p>
+            <ul>
+              <li>Textual editing with autocomplete and refactoring.</li>
+              <li>Live validation as you type.</li>
+              <li>Automatic diagram generation from the text.</li>
+              <li>Headless CLI for batch and pipeline use.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <span class="domain"><i data-lucide="terminal"></i>Automation</span>
+            <h3>Automator</h3>
+            <p>A Python API for programmatic SysML v2 model access.</p>
+            <ul>
+              <li>Generate reports, docs, and diagrams on demand.</li>
+              <li>Drive CI/CD checks against the model.</li>
+              <li>Sync requirements with DOORS and PLM.</li>
+              <li>Template-driven code and test generation.</li>
+            </ul>
+          </article>
+        </div>
+        <div class="outcome">
+          <strong>The PM read:</strong> Ford doesn't need to build a modeler, and doesn't need to abandon
+          Cameo or Rhapsody. The leverage is in the Automator's Python + SysML v2 API surface — a
+          toolchain-agnostic integration bus that plugs into whatever SysML v2-conformant environment
+          Ford standardizes on.
+        </div>
+      </section>
+
+      <section id="use-cases" class="reveal" data-nav="Six Use Cases">
+        <p class="eyebrow">VESSE in Practice</p>
+        <h2>What <span class="sac">System-as-Code</span> makes real.</h2>
+        <p class="subtle">Standard Use Cases mapped to a concrete VESSE workflow and the KPI it moves.</p>
+
+        <details open>
+          <summary>Automatic asset generation from the model <span class="uc-num">UC 1</span></summary>
+          <p>Generate documentation, interface diagrams, and review reports in any format directly from the
+            model, kept in sync through the Python interface.</p>
+          <ul>
+            <li><strong>VESSE application:</strong> auto-produce ECU interface specs, E/E architecture
+              reports, and design-review packs the moment the model changes — no manual redraw.</li>
+            <li><strong>KPI:</strong> engineering hours saved; documentation always current with the model.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Model simulation, analysis &amp; validation <span class="uc-num">UC 2</span></summary>
+          <p>Execute and validate system models from the design phase — run model checks and simulate
+            behavior before implementation.</p>
+          <ul>
+            <li><strong>VESSE application:</strong> catch interface mismatches and timing/latency violations
+              at design time, shifting defect discovery left of MIL/SIL/HIL.</li>
+            <li><strong>KPI:</strong> Defect Detection Rate (DDR); cost avoided by not finding defects at HIL
+              or in-market.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Integrating multiple engineering tools &amp; workflows <span class="uc-num">UC 3</span></summary>
+          <p>Connect existing tools through Python interfaces and the SysML v2 API — PLM, requirements
+            management, and CAD — while keeping the model consistent.</p>
+          <ul>
+            <li><strong>VESSE application:</strong> a live bridge between DOORS requirements, Cameo models,
+              and AUTOSAR repositories so trace links stay intact across the toolchain.</li>
+            <li><strong>KPI:</strong> traceability compliance; hours lost to manual cross-referencing
+              eliminated.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Collaborative model editing <span class="uc-num">UC 4</span></summary>
+          <p>Work on models simultaneously with real-time collaboration and version control — track changes,
+            manage conflicts, maintain consistency across the team.</p>
+          <ul>
+            <li><strong>VESSE application:</strong> model changes reviewed like code — branch, diff, merge —
+              across distributed electrical, software, and systems teams.</li>
+            <li><strong>KPI:</strong> review cycle time; fewer integration conflicts late in the V-model.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Structured artifact generation for toolchain hand-off <span class="uc-num">UC 5</span></summary>
+          <p>Generate structured interface specifications and configuration inputs from the model using
+            template engines via the Automator — not to bypass AUTOSAR toolchains, but to reduce the
+            manual burden of feeding them.</p>
+          <ul>
+            <li><strong>VESSE application:</strong> produce ARXML interface descriptions, software component
+              port definitions, and signal lists that feed directly into DaVinci or EB tresos —
+              eliminating the manual transcription step between model and AUTOSAR toolchain. SIL/HIL test
+              case stubs are a parallel output where data quality supports it.</li>
+            <li><strong>KPI:</strong> hours saved at model-to-toolchain handoff; reduction in interface
+              definition errors caught late in integration.</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Embedding DSLs into SysML v2 models <span class="uc-num">UC 6</span></summary>
+          <p>Create and integrate domain-specific languages within models to express specialized engineering
+            concepts while staying compatible with the SysML v2 standard.</p>
+          <ul>
+            <li><strong>VESSE application:</strong> encode Ford-specific E/E, network, and safety semantics as
+              first-class DSL constructs — capturing institutional knowledge in the model itself.</li>
+            <li><strong>KPI:</strong> reuse across programs; reduced onboarding time for new engineers.</li>
+          </ul>
+        </details>
+      </section>
+
+      <section id="ecosystem" class="reveal" data-nav="Fits Ford's AI Ecosystem">
+        <p class="eyebrow">The Closed Loop</p>
+        <h2>One model. Every agent. One source of truth.</h2>
+        <p class="subtle">
+          The model is the source of truth; the Automator's API is the bus. From there, Ford's existing
+          AI and platform tools read from and write back to the same model — a single, closed,
+          machine-driven loop.
+        </p>
+
+        <div class="arch">
+          <div class="arch-layer">
+            <p class="lyr-label">Source of Truth</p>
+            <div class="node-row cols-1">
+              <div class="node core">
+                <div class="nh"><i data-lucide="file-code-2"></i>SysML v2 Model</div>
+                <small>Textual, versioned, KerML-precise — requirements, E/E architecture, and behavior in one
+                  Git-native artifact.</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="arch-flow">↓</div>
+
+          <div class="arch-layer">
+            <p class="lyr-label">Programmable Interface</p>
+            <div class="node-row cols-1">
+              <div class="node engine">
+                <div class="nh"><i data-lucide="terminal"></i>Syside Automator — Python + SysML v2 API</div>
+                <small>The bus. Reads and writes the model programmatically so every tool below works against
+                  one consistent state.</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="arch-flow">↓</div>
+
+          <div class="arch-layer">
+            <p class="lyr-label">Ford AI &amp; Platform Layer</p>
+            <div class="node-row cols-4">
+              <div class="node">
+                <div class="nh"><i data-lucide="sparkles"></i>Gemini Enterprise Agent Platform</div>
+                <small>Agents read the model to find gaps, draft architecture, and generate code under
+                  engineer review.</small>
+              </div>
+              <div class="node">
+                <div class="nh"><i data-lucide="database"></i>Google Cloud Data Agent Kit</div>
+                <small>Pipelines turn model + telemetry into labeled training and synthetic test data.</small>
+              </div>
+              <div class="node">
+                <div class="nh"><i data-lucide="git-merge"></i>Tekton CI/CD</div>
+                <small>On every model change: validate → generate code → build → run SIL tests.</small>
+              </div>
+              <div class="node">
+                <div class="nh"><i data-lucide="workflow"></i>Apache Airflow</div>
+                <small>Orchestrates scheduled asset generation, validation sweeps, and sync jobs.</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="arch-flow">↓</div>
+
+          <div class="arch-layer">
+            <p class="lyr-label">Engineering Systems of Record</p>
+            <div class="node-row cols-4">
+              <div class="node">
+                <div class="nh"><i data-lucide="list-checks"></i>IBM DOORS</div>
+                <small>Bidirectional requirement trace links, generated and verified.</small>
+              </div>
+              <div class="node">
+                <div class="nh"><i data-lucide="box"></i>Cameo / MBSE</div>
+                <small>Existing models interoperate via the SysML v2 API.</small>
+              </div>
+              <div class="node">
+                <div class="nh"><i data-lucide="cpu"></i>AUTOSAR</div>
+                <small>ARXML specs and port definitions feed DaVinci / EB tresos; not a replacement for AUTOSAR toolchains.</small>
+              </div>
+              <div class="node">
+                <div class="nh"><i data-lucide="flask-conical"></i>SIL / HIL Rigs</div>
+                <small>Generated test cases and synthetic signals feed validation.</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="arch-note">Flow is bidirectional: tools both consume the model and write results back, so
+          the model stays the single source of truth.</p>
+
+        <table class="matrix" aria-label="Tool-to-role mapping">
+          <thead>
+            <tr>
+              <th>Tool</th>
+              <th>Role in the model-driven pipeline</th>
+              <th>Connects via</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Syside Automator</strong></td>
+              <td>Programmatic read/write to the model — the integration bus</td>
+              <td>Python + SysML v2 API</td>
+            </tr>
+            <tr>
+              <td><strong>Gemini Enterprise Agent Platform</strong></td>
+              <td>Agentic gap analysis, architecture drafting, code generation</td>
+              <td>API calls over model text</td>
+            </tr>
+            <tr>
+              <td><strong>Google Cloud Data Agent Kit</strong></td>
+              <td>Build labeled / synthetic datasets from model + telemetry</td>
+              <td>Data pipelines</td>
+            </tr>
+            <tr>
+              <td><strong>Tekton</strong></td>
+              <td>CI/CD: validate, generate, build, test on every model change</td>
+              <td>Pipeline triggers</td>
+            </tr>
+            <tr>
+              <td><strong>Apache Airflow</strong></td>
+              <td>Schedule and orchestrate generation, validation, and sync jobs</td>
+              <td>DAGs invoking the API</td>
+            </tr>
+            <tr>
+              <td><strong>DOORS / Cameo / AUTOSAR</strong></td>
+              <td>Requirements, legacy models, and implementation code, kept in sync</td>
+              <td>SysML v2 API + adapters</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="impact" class="reveal" data-nav="Impact & KPIs">
+        <p class="eyebrow">The ROI</p>
+        <h2>What <span class="sac">System-as-Code</span> buys Ford.</h2>
+        <p class="subtle">Targets a pilot would prove out — tied to the VESSE metrics leadership funds
+          against. Figures are illustrative targets, not measured results.</p>
+        <div class="stats">
+          <div class="stat">
+            <div class="num">Hours</div>
+            <span class="lbl">Engineering hours reclaimed via auto-generated docs, trace links, and code.</span>
+          </div>
+          <div class="stat">
+            <div class="num">+DDR</div>
+            <span class="lbl">Higher Defect Detection Rate from shift-left validation at design time.</span>
+          </div>
+          <div class="stat">
+            <div class="num">Faster</div>
+            <span class="lbl">Time-to-market cut as model-to-code and test generation compress.</span>
+          </div>
+          <div class="stat">
+            <div class="num">100%</div>
+            <span class="lbl">Traceability coverage targeted — links generated, not hand-maintained.</span>
+          </div>
+        </div>
+        <div class="outcome">
+          <strong>The economic argument:</strong> validating at the model stops defects from leaking to HIL
+          or the field. The cost of a missed defect (a false negative — recall, warranty, reputation) dwarfs
+          the cost of running these checks. The model-driven loop is how Ford keeps false negatives low while
+          reclaiming the manual hours.
+        </div>
+      </section>
+
+      <section id="roadmap" class="reveal" data-nav="Adoption Plan">
+        <p class="eyebrow">How I'd Run It</p>
+        <h2>Prove it. Ninety days.</h2>
+        <p class="subtle">A TPM's POC-to-scale sequence — prove value on one workflow before asking for
+          platform investment.</p>
+        <div class="timeline">
+          <div class="t-item">
+            <div class="month">Jun 2026</div>
+            <span class="phase">Find the Pain</span>
+            <p>Embed with one VESSE team. Pick a high-friction workflow (e.g. requirement-to-interface
+              tracing) and baseline its hours and defect leakage.</p>
+          </div>
+          <div class="t-item">
+            <div class="month">Jul 2026</div>
+            <span class="phase">Build the POC</span>
+            <p>Stand up Syside on that workflow. Use the Automator to auto-generate docs and trace links;
+              demo it live in an AMA.</p>
+          </div>
+          <div class="t-item">
+            <div class="month">Aug 2026</div>
+            <span class="phase">Wire the Loop</span>
+            <p>Connect the model to Tekton and a Gemini agent for validation and structured artifact
+              generation (ARXML specs, interface stubs, test case scaffolds) — engineer reviews and
+              approves every output before it enters the toolchain.</p>
+          </div>
+          <div class="t-item">
+            <div class="month">Sep 2026</div>
+            <span class="phase">Scale</span>
+            <p>Show measured hours saved and DDR lift. Re-fund on results and extend across FNV3.X domains.</p>
+          </div>
+        </div>
+        <p class="footer-note">Gate expansion on measured KPI lift and engineer trust — not launch count.</p>
+      </section>
+
+      <section id="sources" class="reveal" data-nav="Sources">
+        <p class="eyebrow">References</p>
+        <h2>Sources</h2>
+        <p class="subtle">Standards, tools, and platforms behind this pitch.</p>
+        <div class="grid-2">
+          <article class="card">
+            <h3>SysML v2 &amp; the reference toolchain</h3>
+            <ul>
+              <li><a href="https://sensmetry.com/syside/" target="_blank" rel="noopener">Sensmetry Syside — Pro Suite
+                  (Modeler &amp; Automator) ›</a></li>
+              <li><a href="https://www.omg.org/spec/SysML/2.0/Beta1" target="_blank" rel="noopener">OMG SysML v2
+                  specification ›</a></li>
+              <li><a href="https://www.omg.org/spec/KerML/" target="_blank" rel="noopener">OMG KerML metamodel ›</a>
+              </li>
+              <li><a href="https://github.com/Systems-Modeling/SysML-v2-Release" target="_blank" rel="noopener">SysML v2
+                  release &amp; pilot API ›</a></li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Ford AI ecosystem &amp; platforms</h3>
+            <ul>
+              <li><a href="ford-ai-initiatives.html">Ford AI Strategic Initiatives (companion page) ›</a></li>
+              <li><a href="https://cloud.google.com/products/agentspace" target="_blank" rel="noopener">Google Gemini
+                  Enterprise / Agentspace ›</a></li>
+              <li><a href="https://tekton.dev/" target="_blank" rel="noopener">Tekton — CI/CD pipelines ›</a></li>
+              <li><a href="https://airflow.apache.org/" target="_blank" rel="noopener">Apache Airflow — workflow
+                  orchestration ›</a></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <img src="assets/ford-logo.png" alt="Ford" />
+        <p>Ford VESSE · System-as-Code Pitch · Internal Working Document</p>
+      </footer>
+    </main>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script>
+    const toc = document.getElementById("toc");
+    const sections = [...document.querySelectorAll("main section, main header.hero")];
+
+    function buildToc() {
+      const frag = document.createDocumentFragment();
+      sections.forEach((section, index) => {
+        const id = section.id || `section-${index + 1}`;
+        section.id = id;
+        const label = section.dataset.nav
+          || section.querySelector("h2, h1")?.textContent?.trim()
+          || "Section";
+
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = label;
+        btn.dataset.target = id;
+        btn.addEventListener("click", () => {
+          document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+        frag.appendChild(btn);
+      });
+      toc.innerHTML = "";
+      toc.appendChild(frag);
+    }
+
+    function syncActiveNav() {
+      const navButtons = [...toc.querySelectorAll("button")];
+      let currentId = sections[0]?.id;
+      sections.forEach((section) => {
+        if (section.getBoundingClientRect().top <= 140) currentId = section.id;
+      });
+      navButtons.forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.target === currentId);
+      });
+    }
+
+    window.addEventListener("scroll", syncActiveNav, { passive: true });
+
+    // Subtle scroll reveal
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+
+    buildToc();
+    syncActiveNav();
+    if (window.lucide) lucide.createIcons();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,1080 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ford AI Strategic Initiatives</title>
+
+  <!-- Design-system tokens (color + type). Import, don't re-declare. -->
+  <link rel="stylesheet" href="../design-system/colors_and_type.css" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      color: var(--fg);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      line-height: var(--body-lh);
+    }
+
+    a {
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* ---------- Layout ---------- */
+    .layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      align-self: start;
+      height: 100vh;
+      overflow: auto;
+      background: var(--bg-subtle);
+      border-right: 1px solid var(--border);
+      padding: var(--space-5) var(--space-5) var(--space-6);
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      padding-bottom: var(--space-5);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: var(--space-5);
+    }
+
+    .brand img {
+      width: 64px;
+      height: auto;
+    }
+
+    .brand .eyebrow {
+      margin: 0;
+    }
+
+    .brand p {
+      margin: 0;
+      font-size: var(--body-sm);
+      line-height: var(--body-sm-lh);
+      color: var(--fg-secondary);
+    }
+
+    .panel-label {
+      font-size: var(--caption);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--fg-muted);
+      margin: 0 0 var(--space-3);
+    }
+
+    /* View toggle — selectable chips */
+    .view-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-2);
+      margin-bottom: var(--space-6);
+    }
+
+    .view-toggle button {
+      padding: 9px 10px;
+      font-size: var(--body-sm);
+      font-weight: 600;
+      font-family: var(--font-sans);
+      border: 1.5px solid var(--border-strong);
+      background: var(--surface);
+      color: var(--fg);
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      transition: background var(--dur-fast) var(--ease-standard),
+        border-color var(--dur-fast) var(--ease-standard),
+        color var(--dur-fast) var(--ease-standard);
+    }
+
+    .view-toggle button:hover {
+      border-color: var(--ford-electric);
+    }
+
+    .view-toggle button.active {
+      background: var(--ford-blue-900);
+      border-color: var(--ford-blue-900);
+      color: var(--white);
+    }
+
+    /* TOC nav */
+    .nav {
+      display: grid;
+      gap: 2px;
+    }
+
+    .nav button {
+      text-align: left;
+      width: 100%;
+      padding: 9px 12px;
+      font-size: var(--body-sm);
+      font-family: var(--font-sans);
+      color: var(--fg-secondary);
+      background: transparent;
+      border: none;
+      border-left: 2px solid transparent;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: color var(--dur-fast) var(--ease-standard),
+        background var(--dur-fast) var(--ease-standard);
+    }
+
+    .nav button:hover {
+      color: var(--fg);
+      background: var(--bg-muted);
+    }
+
+    .nav button.active {
+      color: var(--ford-electric);
+      font-weight: 600;
+      border-left-color: var(--ford-electric);
+      background: var(--ford-electric-100);
+    }
+
+    /* ---------- Main ---------- */
+    .main {
+      padding: var(--space-6) var(--gutter) var(--space-9);
+      max-width: var(--content-max);
+    }
+
+    .top-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: var(--space-2);
+      margin-bottom: var(--space-5);
+      flex-wrap: wrap;
+    }
+
+    .btn-outline {
+      padding: 10px 18px;
+      border-radius: var(--radius-pill);
+      border: 1.5px solid var(--border-strong);
+      background: var(--surface);
+      color: var(--ford-blue-900);
+      font: 600 var(--body-sm)/1 var(--font-sans);
+      cursor: pointer;
+      transition: border-color var(--dur-fast) var(--ease-standard),
+        background var(--dur-fast) var(--ease-standard);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--ford-electric);
+    }
+
+    .btn-outline:active {
+      transform: scale(0.98);
+    }
+
+    /* Hero */
+    .hero {
+      background:
+        radial-gradient(130% 120% at 85% -10%, #0f4a97 0%, rgba(15, 74, 151, 0) 60%),
+        linear-gradient(120deg, var(--ford-blue-900) 0%, var(--ford-blue-700) 55%, var(--ford-blue-500) 100%);
+      color: var(--white);
+      border-radius: var(--radius-lg);
+      padding: clamp(28px, 5vw, 56px);
+      box-shadow: var(--shadow-hero);
+      margin-bottom: var(--space-6);
+    }
+
+    .hero .eyebrow {
+      color: var(--ford-electric-300);
+      margin: 0 0 var(--space-3);
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(30px, 4.4vw, 52px);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin: 0 0 var(--space-4);
+      max-width: 18ch;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 70ch;
+      font-size: var(--body-lg);
+      line-height: var(--body-lg-lh);
+      color: #d9eaff;
+    }
+
+    .hero .byline {
+      margin-top: var(--space-4);
+      font-size: var(--body-sm);
+      font-weight: 600;
+      color: var(--white);
+    }
+
+    .hero .byline .role {
+      color: var(--ford-electric-300);
+      font-weight: 400;
+    }
+
+
+    /* Sections */
+    section {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      padding: clamp(20px, 3vw, 36px);
+      box-shadow: var(--shadow-sm);
+      margin: var(--space-5) 0;
+    }
+
+    section>.eyebrow {
+      margin: 0 0 var(--space-2);
+    }
+
+    section h2 {
+      margin: 0 0 var(--space-2);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: var(--h2);
+      line-height: var(--h2-lh);
+      letter-spacing: var(--h2-ls);
+      color: var(--ford-blue);
+    }
+
+    .subtle {
+      color: var(--fg-secondary);
+      font-size: var(--body-sm);
+      max-width: var(--measure);
+      margin: 0 0 var(--space-5);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow var(--dur-med) var(--ease-standard),
+        transform var(--dur-med) var(--ease-standard);
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .card h3 {
+      margin: 0 0 var(--space-2);
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: var(--h3);
+      line-height: var(--h3-lh);
+      letter-spacing: var(--h3-ls);
+      color: var(--ford-blue);
+    }
+
+    .card p {
+      margin: 0;
+      font-size: var(--body-sm);
+      line-height: 1.55;
+      color: var(--fg-secondary);
+    }
+
+    .card ul {
+      margin: var(--space-2) 0 0;
+      padding-left: 1.1em;
+    }
+
+    .card li {
+      font-size: var(--body-sm);
+      line-height: 1.55;
+      color: var(--fg-secondary);
+      margin-bottom: 4px;
+    }
+
+    .card li strong {
+      color: var(--fg);
+    }
+
+    .domain {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: var(--caption);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 5px 11px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--ford-electric-100);
+      background: var(--ford-electric-100);
+      color: var(--ford-electric-600);
+      margin-bottom: var(--space-3);
+    }
+
+    .domain i {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Business / Delivery view blocks */
+    .outcome,
+    .delivery {
+      font-size: var(--body-sm);
+      line-height: 1.55;
+      margin-top: var(--space-3);
+      border-top: 1px dashed var(--border-strong);
+      padding-top: var(--space-3);
+      color: var(--fg-secondary);
+    }
+
+    .outcome strong,
+    .delivery strong {
+      color: var(--fg);
+    }
+
+    .delivery {
+      display: none;
+    }
+
+    body.view-delivery .delivery {
+      display: block;
+    }
+
+    body.view-delivery .outcome {
+      display: none;
+    }
+
+    /* Matrix table */
+    .matrix {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--body-sm);
+      margin-top: var(--space-4);
+    }
+
+    .matrix th,
+    .matrix td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      vertical-align: top;
+      text-align: left;
+      line-height: 1.45;
+    }
+
+    .matrix th {
+      background: var(--bg-subtle);
+      color: var(--ford-blue);
+      font-weight: 700;
+      font-size: var(--caption);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .matrix td {
+      color: var(--fg-secondary);
+    }
+
+    /* Accordions */
+    details {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-3) var(--space-4);
+      margin: var(--space-3) 0;
+      background: var(--bg-subtle);
+    }
+
+    details[open] {
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 700;
+      font-size: var(--body);
+      color: var(--ford-blue);
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::before {
+      content: "";
+      width: 16px;
+      height: 16px;
+      flex: none;
+      background: var(--ford-electric);
+      mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>') center / contain no-repeat;
+      transition: transform var(--dur-fast) var(--ease-standard);
+    }
+
+    details[open] summary::before {
+      transform: rotate(90deg);
+    }
+
+    details p {
+      font-size: var(--body-sm);
+      line-height: 1.6;
+      color: var(--fg-secondary);
+      margin: var(--space-3) 0 0;
+    }
+
+    details ul {
+      margin: var(--space-3) 0 0;
+      padding-left: 1.1em;
+    }
+
+    details li {
+      font-size: var(--body-sm);
+      line-height: 1.55;
+      color: var(--fg-secondary);
+      margin-bottom: 5px;
+    }
+
+    details li strong {
+      color: var(--fg);
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: var(--caption);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: var(--radius-pill);
+      border: 1px solid;
+      margin-right: 4px;
+    }
+
+    .b-high {
+      color: var(--success);
+      border-color: #a8dcb9;
+      background: #e7f3ec;
+    }
+
+    .b-med {
+      color: var(--warning);
+      border-color: #f0d49a;
+      background: #fbf1de;
+    }
+
+    /* Roadmap timeline */
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+      margin-top: var(--space-4);
+    }
+
+    .t-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      background: var(--bg-subtle);
+      position: relative;
+    }
+
+    .t-item .month {
+      font-family: var(--font-display);
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: var(--ford-electric);
+      font-size: var(--h3);
+      margin-bottom: var(--space-1);
+    }
+
+    .t-item .phase {
+      display: block;
+      font-size: var(--caption);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--fg-muted);
+      margin-bottom: var(--space-3);
+    }
+
+    .t-item p {
+      margin: 0;
+      font-size: var(--body-sm);
+      line-height: 1.55;
+      color: var(--fg-secondary);
+    }
+
+    .footer-note {
+      color: var(--fg-muted);
+      font-size: var(--caption);
+      margin-top: var(--space-4);
+    }
+
+    /* Page footer */
+    .site-footer {
+      background: var(--ford-blue-900);
+      color: var(--gray-300);
+      border-radius: var(--radius-lg);
+      padding: clamp(24px, 4vw, 40px);
+      margin-top: var(--space-6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+    }
+
+    .site-footer img {
+      width: 56px;
+      height: auto;
+    }
+
+    .site-footer p {
+      margin: 0;
+      font-size: var(--caption);
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity var(--dur-slow) var(--ease-emphasized), transform var(--dur-slow) var(--ease-emphasized);
+    }
+
+    .reveal.in {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+
+    @media (max-width: 1080px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .timeline {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body class="view-outcome">
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <img src="assets/ford-logo.png" alt="Ford" />
+        <p class="eyebrow">Ford AI Strategy</p>
+        <p>Unified view across dealer AI, vehicle AI, internal platforms, and service operations.</p>
+      </div>
+
+      <p class="panel-label">View</p>
+      <div class="view-toggle" id="viewToggle">
+        <button data-view="outcome" class="active" type="button">Business</button>
+        <button data-view="delivery" type="button">Delivery</button>
+      </div>
+
+      <p class="panel-label">Contents</p>
+      <nav class="nav" id="toc"></nav>
+    </aside>
+
+    <main class="main" id="mainContent">
+      <div class="top-actions">
+        <a class="btn-outline" href="ford-sysml.html" style="display:inline-block;text-decoration:none">System-as-Code
+          Pitch ›</a>
+        <button class="btn-outline" id="expandAll" type="button">Open All Details ›</button>
+        <button class="btn-outline" id="collapseAll" type="button">Close All Details ›</button>
+      </div>
+
+      <header class="hero reveal" id="executive-summary" data-nav="Executive Summary">
+        <p class="eyebrow">Unified View</p>
+        <h1>Ford AI Strategic Initiatives</h1>
+        <p>
+          My take/mental model of Ford's AI initiatives across dealers, vehicles, and enterprise platforms — turning vehicle
+          data into less downtime, faster repairs, and lower lifetime cost.
+        </p>
+        <p class="byline">
+          Mohan Koushik Tupakula <span class="role">— AI-native Product Builder</span>
+        </p>
+      </header>
+
+      <section id="initiative-landscape" class="reveal" data-nav="Initiative Landscape">
+        <p class="eyebrow">Landscape</p>
+        <h2>Initiative Landscape</h2>
+        <p class="subtle">Where each piece adds value — and how they compound.</p>
+        <div class="grid-3">
+          <article class="card">
+            <span class="domain"><i data-lucide="store"></i>Dealer AI</span>
+            <h3>FordDirect Ecosystem</h3>
+            <p>Marchex, Impel, Podium, and Insight Engage add conversational intelligence and customer engagement at the
+              dealership.</p>
+            <div class="outcome"><strong>Business:</strong> Higher lead conversion, better service-lane use, faster
+              response.</div>
+            <div class="delivery"><strong>Delivery:</strong> Standardize event contracts between dealer tools and the
+              customer journey platform to cut duplicate workflows.</div>
+          </article>
+          <article class="card">
+            <span class="domain"><i data-lucide="car-front"></i>Vehicle AI</span>
+            <h3>Ford AI Assistant + UEV + BlueCruise</h3>
+            <p>Ford is moving the AI assistant from the app into the vehicle, backed by central compute and advancing
+              driver assistance.</p>
+            <div class="outcome"><strong>Business:</strong> New service and subscription surfaces, personalized to how
+              each vehicle is used.</div>
+            <div class="delivery"><strong>Delivery:</strong> Align assistant APIs, telemetry schemas, and over-the-air
+              release planning with service use cases.</div>
+          </article>
+          <article class="card">
+            <span class="domain"><i data-lucide="layers"></i>AI Platforms</span>
+            <h3>FordLLM + Mach1ML</h3>
+            <p>FordLLM gives secure enterprise LLM access; Mach1ML standardizes how models ship.</p>
+            <div class="outcome"><strong>Business:</strong> Faster iteration and lower cost through reuse, not one-off
+              stacks.</div>
+            <div class="delivery"><strong>Delivery:</strong> Build platform-first; reserve custom models for
+              high-differentiation problems.</div>
+          </article>
+        </div>
+      </section>
+
+      <section id="service-transformation" class="reveal" data-nav="Service Portfolio">
+        <p class="eyebrow">Portfolio</p>
+        <h2>Service Transformation Portfolio</h2>
+        <p class="subtle">Five prospective initiatives that turn vehicle and service data into measurable outcomes.</p>
+
+        <div class="grid-2">
+          <article class="card">
+            <span class="domain"><i data-lucide="workflow"></i>Service Architecture</span>
+            <h3>One system, not five pilots</h3>
+            <p>
+              Run the portfolio as one closed loop. Every initiative feeds a shared service data model.
+            </p>
+            <div class="outcome">
+              <strong>Business:</strong> each repair improves future diagnostics, planning, and preventive scheduling —
+              at network scale.
+            </div>
+            <div class="delivery">
+              <strong>Delivery:</strong> standardize core entities everywhere — VIN, symptom, fault code, repair code,
+              part, labor time, claim outcome.
+            </div>
+          </article>
+          <article class="card">
+            <span class="domain"><i data-lucide="shield-check"></i>Service Governance</span>
+            <h3>Control points for scale</h3>
+            <p>
+              Central governance for model quality, technician trust, and cost accountability. Every recommendation
+              carries evidence, a confidence level, and its outcome.
+            </p>
+            <div class="outcome">
+              <strong>Business:</strong> keeps adoption high and limits cost leakage from low-quality automation.
+            </div>
+            <div class="delivery">
+              <strong>Delivery:</strong> gate every model update — quality threshold, bias check, explainability,
+              rollback path.
+            </div>
+          </article>
+        </div>
+
+        <details open>
+          <summary>1. Diagnostic Copilot</summary>
+          <p>
+            The front door of the service stack. Fuses telemetry, OEM knowledge, and past repairs to rank likely root
+            causes — cutting triage time and guesswork.
+          </p>
+          <ul>
+            <li><strong>Context:</strong> fragmented systems and uneven expertise slow technicians.</li>
+            <li><strong>Data:</strong> fault codes, live telemetry, mileage, prior repairs, service bulletins, recalls,
+              failure patterns.</li>
+            <li><strong>Workflow:</strong> symptom → evidence → ranked causes → guided fix → parts/labor preview →
+              outcome feedback.</li>
+            <li><strong>Decision support:</strong> every recommendation shows confidence, sources, and the next test to
+              run.</li>
+            <li><strong>Human in the loop:</strong> the technician confirms the cause and can reject suggestions with
+              reason codes.</li>
+          </ul>
+          <div class="outcome">
+            <strong>What we'll measure:</strong> diagnostic cycle time, first-time fix rate, repeat repairs within 30
+            days, technician adoption.
+          </div>
+          <div class="delivery">
+            <strong>Risks:</strong> weak retrieval, stale OEM docs, poor confidence calibration, thin telemetry by
+            subsystem.
+          </div>
+        </details>
+
+        <details open>
+          <summary>2. Intelligent Work Order & Repair Plan Generation</summary>
+          <p>
+            Turns diagnostics and technician findings into scheduled labor, ordered parts, and customer commitments —
+            the point where recommendations become action.
+          </p>
+          <ul>
+            <li><strong>Context:</strong> manual orders create delay, inconsistency, and billing disputes.</li>
+            <li><strong>Data:</strong> symptoms, diagnostic outputs, parts catalog, labor benchmarks, warranty rules,
+              service history.</li>
+            <li><strong>Workflow:</strong> alert/complaint → extraction → draft order → advisor review → dispatch →
+              completion.</li>
+            <li><strong>Policy:</strong> lock compliance fields; keep advisor override for edge cases.</li>
+            <li><strong>Commercial:</strong> surface upsells tied to real vehicle condition, not generic promotions.
+            </li>
+          </ul>
+          <div class="outcome">
+            <strong>What we'll measure:</strong> drafting time, dispatch latency, estimate accuracy, warranty claim
+            acceptance, billing adjustments per repair.
+          </div>
+          <div class="delivery">
+            <strong>Risks:</strong> inaccurate extraction from voice notes, taxonomy drift between sites, brittle
+            dealer-management-system integration.
+          </div>
+        </details>
+
+        <details open>
+          <summary>3. Conversational Fleet Health Analyst</summary>
+          <p>
+            The manager's layer for preventive maintenance. Answers complex questions in plain language, with auditable
+            logic and actions ready to schedule.
+          </p>
+          <ul>
+            <li><strong>Context:</strong> dashboard-heavy workflows slow action and hide cross-vehicle patterns.</li>
+            <li><strong>Data:</strong> telemetry, service events, mileage cohorts, route profile, utilization, cost and
+              downtime history.</li>
+            <li><strong>Workflow:</strong> question → query plan → synthesis → recommended action → watchlist.</li>
+            <li><strong>Narrative:</strong> explains why a cohort is high risk and the window that minimizes downtime
+              cost.</li>
+            <li><strong>Continuity:</strong> outputs open straight into scheduling and work orders — no re-entry.</li>
+          </ul>
+          <div class="outcome">
+            <strong>What we'll measure:</strong> time-to-decision, preventive completion rate, roadside events avoided,
+            downtime hours saved, cost-per-mile stability.
+          </div>
+          <div class="delivery">
+            <strong>Risks:</strong> query drift, overconfident recommendations, weak explainability under time pressure.
+          </div>
+        </details>
+
+        <details open>
+          <summary>4. Computer Vision Digital Vehicle Inspection</summary>
+          <p>
+            Makes condition assessment consistent and machine-readable — daily checks, intake, and post-service. Adds
+            visual evidence and defensible audit trails.
+          </p>
+          <ul>
+            <li><strong>Context:</strong> manual inspections are subjective and hard to aggregate.</li>
+            <li><strong>Data:</strong> phone/depot images, timestamps and geotags, telemetry, prior images, repair
+              outcomes.</li>
+            <li><strong>Workflow:</strong> capture → detect → score severity → synthesize → annotated report → trend
+              tracking.</li>
+            <li><strong>Evidence:</strong> each detection keeps source images, confidence, and model version for
+              disputes.</li>
+            <li><strong>Linkage:</strong> critical findings auto-raise service flags and scheduling prompts.</li>
+          </ul>
+          <div class="outcome">
+            <strong>What we'll measure:</strong> inspection time per vehicle, detection accuracy by damage type, dispute
+            resolution time, preventive trigger conversion.
+          </div>
+          <div class="delivery">
+            <strong>Risks:</strong> poor image quality at edge sites, class imbalance by damage type, false positives
+            that create needless service.
+          </div>
+        </details>
+
+        <details open>
+          <summary>5. Knowledge Capture & Technician Learning Engine</summary>
+          <p>
+            The compounding layer. Turns every repair into institutional knowledge and reduces reliance on a few local
+            experts.
+          </p>
+          <ul>
+            <li><strong>Context:</strong> technician turnover erodes capability and makes quality uneven across sites.
+            </li>
+            <li><strong>Data:</strong> work orders, free-text notes, diagnostic traces, parts substitutions, labor
+              actuals, outcomes.</li>
+            <li><strong>Workflow:</strong> extract → map → update knowledge graph → retrieve in context → build learning
+              content.</li>
+            <li><strong>Learning:</strong> guidance tailored to technician seniority, vehicle class, and recurring
+              failures.</li>
+            <li><strong>Network effect:</strong> every repair improves answers for the next case, anywhere.</li>
+          </ul>
+          <div class="outcome">
+            <strong>What we'll measure:</strong> repeat-issue resolution time, new-technician onboarding, cross-site
+            quality variance, guidance use.
+          </div>
+          <div class="delivery">
+            <strong>Risks:</strong> noisy note extraction, weak ontology governance, thin feedback from final outcomes.
+          </div>
+        </details>
+
+        <table class="matrix" aria-label="Initiative impact matrix">
+          <thead>
+            <tr>
+              <th>Initiative</th>
+              <th>Primary User</th>
+              <th>Core Data Inputs</th>
+              <th>Primary KPI Signals</th>
+              <th>Critical Dependency</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Diagnostic Copilot</td>
+              <td>Technicians</td>
+              <td>DTCs, telemetry, OEM docs, TSBs</td>
+              <td><span class="badge b-high">High</span> diagnostic cycle time, first-time fix</td>
+              <td>High-quality retrieval + evidence traceability</td>
+            </tr>
+            <tr>
+              <td>Work Order Generator</td>
+              <td>Service advisors</td>
+              <td>Voice/text findings, alerts, parts catalogs</td>
+              <td><span class="badge b-med">Med-High</span> drafting time, claim acceptance, dispatch latency</td>
+              <td>Robust extraction and DMS integration patterns</td>
+            </tr>
+            <tr>
+              <td>Fleet Health Analyst</td>
+              <td>Fleet managers</td>
+              <td>Bigtable telemetry, service history, cost data</td>
+              <td><span class="badge b-high">High</span> preventive completion and avoided downtime</td>
+              <td>Accurate text-to-query + explainable recommendation logic</td>
+            </tr>
+            <tr>
+              <td>CV Inspection</td>
+              <td>Drivers, technicians</td>
+              <td>Images, camera feeds, sensor data</td>
+              <td><span class="badge b-med">Med-High</span> detection quality, dispute cycle-time</td>
+              <td>Reliable field image capture and confidence calibration</td>
+            </tr>
+            <tr>
+              <td>Knowledge Engine</td>
+              <td>Technicians, trainers</td>
+              <td>Work orders, notes, repair outcomes</td>
+              <td><span class="badge b-high">High</span> resolution time for recurring failures, onboarding speed</td>
+              <td>Consistent ontology + outcome feedback loops</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="grid-2" style="margin-top: var(--space-5);">
+          <article class="card">
+            <span class="domain"><i data-lucide="git-merge"></i>Cross-Initiative Dependencies</span>
+            <h3>Data and platform prerequisites</h3>
+            <ul>
+              <li>One VIN-level identity and event schema across all systems.</li>
+              <li>Shared retrieval and knowledge services — no duplicate stores or taxonomies.</li>
+              <li>Versioned model registry with per-site rollout and rollback.</li>
+              <li>Closed-loop labeling from completed repairs to keep models calibrated.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <span class="domain"><i data-lucide="list-ordered"></i>Execution Prioritization</span>
+            <h3>Practical sequence for enterprise scale</h3>
+            <ul>
+              <li><strong>Phase 1:</strong> Diagnostic Copilot + Work Order generation in strong-data regions.</li>
+              <li><strong>Phase 2:</strong> Fleet Health Analyst, linked to preventive scheduling.</li>
+              <li><strong>Phase 3:</strong> CV Inspection and Knowledge Engine, once outcome loops are stable.</li>
+              <li><strong>Program rule:</strong> gate expansion by measured KPI lift and trust — not launch count.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="operating-model" class="reveal" data-nav="Operating Model">
+        <p class="eyebrow">Operating Model</p>
+        <h2>Operating Model and KPI Framework</h2>
+        <div class="grid-2">
+          <article class="card">
+            <h3>Core governance choices</h3>
+            <ul>
+              <li>Platform-first, with explicit reuse targets for FordLLM and Mach1ML.</li>
+              <li>One shared data model across dealer, vehicle, and service.</li>
+              <li>Use-case scorecards — financial, CX, and reliability — drive funding.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>What we'll measure</h3>
+            <ul>
+              <li>Operational: diagnostic cycle time, work-order cycle time, first-time fix rate.</li>
+              <li>Commercial: service revenue per VIN, conversion from proactive outreach, retention/churn.</li>
+              <li>Experience: customer effort, NPS/CSAT, technician confidence and adoption.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="key-sources" class="reveal" data-nav="Key Sources">
+        <p class="eyebrow">References</p>
+        <h2>Key Sources</h2>
+        <p class="subtle">Sources behind this view.</p>
+        <div class="grid-2">
+          <article class="card">
+            <h3>Ford ecosystem and platform references</h3>
+            <ul>
+              <li><a href="https://m0k0ut.github.io/ford_ai_initiatives.html" target="_blank" rel="noopener">Ford AI
+                  initiatives page (provided input) ›</a></li>
+              <li><a
+                  href="https://cloud.google.com/blog/products/databases/ford-pro-intelligence-built-on-bigtable-nosql-database"
+                  target="_blank" rel="noopener">Ford Intelligence on Bigtable ›</a></li>
+              <li><a href="https://www.fordpro.com/en-us/intelligence/fleet-management/" target="_blank"
+                  rel="noopener">Ford fleet management platform ›</a></li>
+              <li><a
+                  href="https://www.fromtheroad.ford.com/us/en/articles/2026/ford-affordable-smart-vehicle-technology-strategy"
+                  target="_blank" rel="noopener">Ford AI assistant and smart-tech strategy ›</a></li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Service AI design references</h3>
+            <ul>
+              <li><a href="https://cartechiq.com/2025/04/18/how-ai-improves-vehicle-diagnostics/" target="_blank"
+                  rel="noopener">AI diagnostic acceleration examples ›</a></li>
+              <li><a href="https://www.oxmaint.com/blog/post/knowledge-capture-automation-technician-notes-llm"
+                  target="_blank" rel="noopener">Knowledge capture in maintenance operations ›</a></li>
+              <li><a href="https://www.infovision.com/case-study/ai-powered-solution-for-vehicle-damage-assessment/"
+                  target="_blank" rel="noopener">AI-assisted vehicle inspection patterns ›</a></li>
+              <li><a
+                  href="https://www.automotive-fleet.com/10240957/how-fleet-managers-are-using-generative-ai-to-transform-daily-operations"
+                  target="_blank" rel="noopener">Fleet AI operational usage patterns ›</a></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <img src="assets/ford-logo.png" alt="Ford" />
+        <p>Ford AI Initiatives · Internal Working Document</p>
+      </footer>
+    </main>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script>
+    const toc = document.getElementById("toc");
+    const sections = [...document.querySelectorAll("main section, main header.hero")];
+    const viewButtons = [...document.querySelectorAll("#viewToggle button")];
+    const detailsList = [...document.querySelectorAll("details")];
+    const expandAllBtn = document.getElementById("expandAll");
+    const collapseAllBtn = document.getElementById("collapseAll");
+
+    function buildToc() {
+      const frag = document.createDocumentFragment();
+      sections.forEach((section, index) => {
+        const id = section.id || `section-${index + 1}`;
+        section.id = id;
+        const label = section.dataset.nav
+          || section.querySelector("h2, h1")?.textContent?.trim()
+          || "Section";
+
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = label;
+        btn.dataset.target = id;
+        btn.addEventListener("click", () => {
+          document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+        frag.appendChild(btn);
+      });
+      toc.innerHTML = "";
+      toc.appendChild(frag);
+    }
+
+    function syncActiveNav() {
+      const navButtons = [...toc.querySelectorAll("button")];
+      let currentId = sections[0]?.id;
+      sections.forEach((section) => {
+        if (section.getBoundingClientRect().top <= 140) currentId = section.id;
+      });
+      navButtons.forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.target === currentId);
+      });
+    }
+
+    viewButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        viewButtons.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        const view = btn.dataset.view;
+        document.body.classList.remove("view-outcome", "view-delivery");
+        document.body.classList.add(view === "delivery" ? "view-delivery" : "view-outcome");
+      });
+    });
+
+    expandAllBtn.addEventListener("click", () => detailsList.forEach((d) => (d.open = true)));
+    collapseAllBtn.addEventListener("click", () => detailsList.forEach((d) => (d.open = false)));
+
+    window.addEventListener("scroll", syncActiveNav, { passive: true });
+
+    // Subtle scroll reveal
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+
+    buildToc();
+    syncActiveNav();
+    if (window.lucide) lucide.createIcons();
+  </script>
+</body>
+
+</html>
