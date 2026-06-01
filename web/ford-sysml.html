@@ -6,10 +6,46 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>SysML v2 for VESSE — Ford AI Ecosystem</title>
 
-  <!-- Design-system tokens (color + type). Import, don't re-declare. -->
-  <link rel="stylesheet" href="../design-system/colors_and_type.css" />
-
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Archivo+Expanded:wght@600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+    :root {
+      --font-display:"Archivo Expanded","Archivo",system-ui,sans-serif;
+      --font-sans:"Archivo",system-ui,-apple-system,sans-serif;
+      --font-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+      --ford-blue:#003478; --ford-blue-900:#00142e; --ford-blue-800:#001a40;
+      --ford-blue-700:#002257; --ford-blue-600:#003478; --ford-blue-500:#0b4ea2; --ford-blue-400:#2a6fd0;
+      --ford-electric:#066fef; --ford-electric-600:#0a5ed1; --ford-electric-300:#5fa3f7; --ford-electric-100:#d6e7fd;
+      --white:#ffffff; --gray-50:#f4f6f9; --gray-100:#e9edf2; --gray-200:#d4dae2;
+      --gray-300:#b9c1cc; --gray-400:#939dab; --gray-500:#6b7480; --gray-600:#4d555f;
+      --gray-700:#343a42; --gray-800:#23272c; --gray-900:#15181b; --black:#0b0c0e;
+      --success:#1e8e3e; --warning:#c77700; --error:#d62d2d; --info:#066fef;
+      --bg:var(--white); --bg-subtle:var(--gray-50); --bg-muted:var(--gray-100); --surface:var(--white);
+      --fg:var(--ford-blue-900); --fg-secondary:var(--gray-600); --fg-muted:var(--gray-500);
+      --fg-on-brand:var(--white); --link:var(--ford-electric);
+      --border:var(--gray-200); --border-strong:var(--gray-300); --focus-ring:var(--ford-electric);
+      --radius-xs:2px; --radius-sm:4px; --radius-md:8px; --radius-lg:16px; --radius-xl:24px; --radius-pill:999px;
+      --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-5:24px;
+      --space-6:32px; --space-7:48px; --space-8:64px; --space-9:96px;
+      --section-y:clamp(72px,9vw,128px); --section-y-lg:clamp(96px,12vw,176px);
+      --gutter:clamp(20px,5vw,48px); --content-max:1240px; --measure:56ch;
+      --shadow-sm:0 1px 2px rgba(0,20,46,.08); --shadow-md:0 4px 14px rgba(0,20,46,.10);
+      --shadow-lg:0 12px 32px rgba(0,20,46,.14); --shadow-hero:0 24px 60px rgba(0,20,46,.28);
+      --ease-standard:cubic-bezier(.2,0,0,1); --ease-emphasized:cubic-bezier(.3,0,0,1);
+      --dur-fast:140ms; --dur-med:240ms; --dur-slow:420ms;
+      --eyebrow-size:13px; --eyebrow-spacing:.14em; --eyebrow-weight:700;
+      --display-xl:76px; --display-xl-lh:1.0; --display-xl-ls:-.02em;
+      --display-l:56px; --display-l-lh:1.04; --display-l-ls:-.02em;
+      --h1:40px; --h1-lh:1.08; --h1-ls:-.015em;
+      --h2:30px; --h2-lh:1.14; --h2-ls:-.01em;
+      --h3:22px; --h3-lh:1.25; --h3-ls:-.005em;
+      --body-lg:19px; --body-lg-lh:1.55; --body:16px; --body-lh:1.6;
+      --body-sm:14px; --body-sm-lh:1.5; --caption:12px; --caption-lh:1.4;
+    }
+    .eyebrow {
+      font-family:var(--font-sans); font-size:var(--eyebrow-size);
+      letter-spacing:var(--eyebrow-spacing); font-weight:var(--eyebrow-weight);
+      text-transform:uppercase; color:var(--ford-electric);
+    }
     * {
       box-sizing: border-box;
     }
