@@ -2,19 +2,19 @@
 
 Application materials and AI-built artifacts for the **Technical Product Manager — VESSE Ecosystem of AI Tools** role at Ford Motor Company.
 
+**Live:** [m0k0ut.github.io/ford-tpm](https://m0k0ut.github.io/ford-tpm/)
+
 ## What's here
 
 | Path | Purpose |
 |------|---------|
-| `web/index.html` | Teaser webpage — domain understanding + workflow discovery methodology + 90-day plan of action |
+| `web/index.html` | Single-page site — AI Initiatives + System-as-Code, tabbed (self-contained, inlined styles) |
+| `web/ford-ai-initiatives.html` | Standalone: Ford AI strategy across dealer, vehicle, and platform |
+| `web/ford-sysml.html` | Standalone: System-as-Code (SysML v2) pitch for VESSE |
 | `web/assets/ford-logo.png` | Ford Blue Oval (transparent PNG) |
-| `Files/job description.pdf` | Full job description (source of truth) |
-| `Files/Ford TPM jargon.pdf` | Role breakdown, automotive jargon guide, interview prep |
-| `design-system/DESIGN_SYSTEM.md` | Ford "Reimagine" design system — rules & component specs |
-| `design-system/colors_and_type.css` | Design tokens (color, type, spacing) — import directly |
-| `AGENTS.md` | Shared agent context: role details, domain jargon, design system pointer |
-| `CLAUDE.md` | Symlink → `AGENTS.md` (read by Claude Code) |
-| `GEMINI.md` | Symlink → `AGENTS.md` (read by Gemini CLI) |
+| `Files/` | Source PDFs — job description + role/jargon/interview guide |
+| `design-system/` | Ford "Reimagine" design system — specs (`DESIGN_SYSTEM.md`) + tokens (`colors_and_type.css`) |
+| `AGENTS.md` | Shared agent context — role, jargon, design pointer (`CLAUDE.md` / `GEMINI.md` symlink here) |
 
 ## The role
 
